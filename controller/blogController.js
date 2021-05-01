@@ -1,11 +1,12 @@
+
+const Blog = require('../models/blog')
+
 // create the blog
 const createBlog = (req, res) => {
     const blog = new Blog(req.body);
-    console.log(blog);
-
     blog.save()
         .then(result => {
-            res.send(result);
+            res.json(result);
     })
     .catch(err => {
         console.log(err);
@@ -58,7 +59,7 @@ module.exports = {
     createBlog,
     getAllblogs,
     updateBlog,
-    deleteBlog,
-    Create
+    deleteBlog
+    
     
 }

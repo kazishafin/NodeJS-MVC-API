@@ -1,37 +1,33 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const blogRoutes = require('./routes/blogRoutes');
+const express = require('express')
+const mongoose = require('mongoose')
+const blogRoutes = require('./routes/blogRoutes')
+const bodyParser = require('body-parser')
 
 
 //set up express app
 const app = express();
 
-
+app.use(bodyParser.json());
 //connect to Mongdb
-//const dbURI = "mongodb+srv://shafin:theheart123@nodejs-app.0jpjp.mongodb.net/Blogdb?retryWrites=true&w=majority";
 
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://shafin:theheart123@nodejs-app.0jpjp.mongodb.net/Blogdb?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  const collection = client.db("Blogdb").collection("BlogCollection");
-  // perform actions on the collection object
-  //client.close();
+const uri = "mongodb+srv://shafin:theheart123@nodejs-app.0jpjp.mongodb.net/Blogdb?retryWrites=true&w=majority"
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.Promise = global.Promise;
+
+app.listen(8080,() => {
+  console.log("server running now")
 });
 
 
-app.listen(8080);
-
-//mongoose.set(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-//.then((result) => app.listen(8080))
-//.catch((err) => console.log(err));
-
-
-//mongoose.Promise = global.Promise;
-
-//app.use(bodyParser.json());
-
+app.get("/", (req, res) => {
+  res.json({
+    title: "welcome to blog",
+    ranking: 10
+  });
+});
 
 // Initialize route
 app.use('/blog', blogRoutes);
@@ -40,6 +36,11 @@ app.use('/blog', blogRoutes);
 
 app.use((err, req, res, next)=>{
 
-    res.status(400).send({Error: err.message});
+  res.status(400).send({Error: err.message});
 
 });
+
+
+
+
+
