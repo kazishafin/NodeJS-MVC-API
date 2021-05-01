@@ -1,18 +1,3 @@
-const Blog = require('../models/blog');
-
-
-const Create = (req, res)=> {
-    
-    console.log(req.body);
-    Blog.create(req.body).then((blog)=>{
-       res.send(blog); 
-    });
- 
-  };
-
-
-
-
 // create the blog
 const createBlog = (req, res) => {
     const blog = new Blog(req.body);
